@@ -13,19 +13,24 @@ package loneliness.game
 		
 		public var motionTween:CircularMotion = new CircularMotion(continueOrbit);
 		
-		public function Orbiter(x:Number, y:Number) 
+		public function Orbiter(x:Number = 0, y:Number = 0, mode:String = '') 
 		{
-			super(x, y);
+			super(x, y, mode);
 			setSpdMax();
 			speed = (spdMax / 2) + (FP.random * spdMax / 2);	
 		}
 		
 		override public function added():void
 		{
-			// Can't do this in the constructor, because there are no center guides yet
-			orbitCenter = (FP.world.nearestToEntity('orbiter_center', this) as Entity);		
-			this.clockWise = (orbitCenter as OrbiterCenter).clockWise;
-			
+			// Can't do this in the constructor, because there are no center guides yet			
+			if (mode == 'smothering') {
+				orbitCenter = MainWorld.player;
+				this.clockWise = FP.choose(true, false);
+			}
+			else {
+				orbitCenter = (FP.world.nearestToEntity('orbiter_center', this) as Entity);		
+				this.clockWise = (orbitCenter as OrbiterCenter).clockWise;
+			}
 			
 			motionTween.setMotionSpeed(orbitCenter.x, orbitCenter.y, distanceFrom(orbitCenter), getAngle(), this.clockWise, speed);
 			FP.world.addTween(motionTween, true);
@@ -35,31 +40,8 @@ package loneliness.game
 		{
 			super.update();
 			
-			// Smothering condition
-			if (this.shouldSmother && !this.smothering && !this.chasing) {
-				trace('boop');
-				direction = pointDirection(x, y, MainWorld.player.x, MainWorld.player.y);	
-				setSpdMax();
-				speed = (spdMax / 2) + (FP.random * spdMax / 2);
-				this.chasing = true;
-				//FP.world.removeTween(motionTween);
-			}			
-			else if (this.smothering && this.chasing && FP.random < 0.1) {
-				trace('beep');
-				orbitCenter = (FP.world.nearestToEntity('player', this) as Entity);
-				motionTween.setMotionSpeed(orbitCenter.x, orbitCenter.y, distanceFrom(orbitCenter), getAngle(), this.clockWise, speed);
-				//FP.world.addTween(motionTween, true);
-				this.chasing = false;
-			}
-			else if (this.chasing) {
-				direction = pointDirection(x, y, MainWorld.player.x, MainWorld.player.y);	
-				setSpdMax();
-				speed = (spdMax / 2) + (FP.random * spdMax / 2);				
-			}
-			else {
-				x = motionTween.x;
-				y = motionTween.y;				
-			}
+			x = motionTween.x;
+			y = motionTween.y;				
 		}
 		
 		public function continueOrbit():void

@@ -58,7 +58,7 @@ package loneliness.rooms
 		/**
 		 * Level XML.
 		 */
-		[Embed(source='../../../assets/loneliness/levels/TestLevel.oel', mimeType='application/octet-stream')] private static const LEVEL:Class;		
+		[Embed(source='../../../assets/loneliness/levels/MainLevel2.oel', mimeType='application/octet-stream')] private static const LEVEL:Class;		
 		
 		/**
 		 * Camera following information.

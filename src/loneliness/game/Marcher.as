@@ -6,9 +6,9 @@ package loneliness.game
 	public class Marcher extends Other
 	{
 		
-		public function Marcher(x:Number, y:Number) 
+		public function Marcher(x:Number, y:Number, mode:String = '') 
 		{
-			super(x, y);
+			super(x, y, mode);
 			direction = FP.choose(0, 180);
 			setSpdMax();
 			speed = (spdMax / 2) + (FP.random * spdMax / 2);
@@ -22,11 +22,11 @@ package loneliness.game
 			else if (x >= MainWorld.width - image.width / 2)
 				direction = 180;
 				
-			if (this.shouldSmother && !this.smothering) {
-				direction = pointDirection(x, y, MainWorld.player.x, MainWorld.player.y)	
-				setSpdMax();
-				speed = (spdMax / 2) + (FP.random * spdMax / 2);				
-			}
+			//if (this.shouldSmother && !this.smothering) {
+				//direction = pointDirection(x, y, MainWorld.player.x, MainWorld.player.y)	
+				//setSpdMax();
+				//speed = (spdMax / 2) + (FP.random * spdMax / 2);				
+			//}
 		}
 		
 	}

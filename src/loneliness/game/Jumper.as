@@ -14,9 +14,9 @@ package loneliness.game
 		public const JUMP_TIME:Number = 0.5 + (FP.random * 1.5);
 		public var jumpAlarm:Alarm = new Alarm(JUMP_TIME, jump);
 		
-		public function Jumper(x:Number, y:Number) 
+		public function Jumper(x:Number, y:Number, mode:String = '') 
 		{
-			super(x, y);
+			super(x, y, mode);
 			yOrig = y;
 			setSpdMax();
 			spdMax *= 1;

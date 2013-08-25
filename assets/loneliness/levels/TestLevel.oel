@@ -405,17 +405,20 @@
     <jumper x="306" y="5010"/>
     <jumper x="294" y="5016"/>
     <jumper x="300" y="4998"/>
-    <orbiter_center x="246" y="7812"/>
-    <orbiter x="210" y="7782"/>
-    <orbiter x="228" y="7824"/>
-    <orbiter x="252" y="7770"/>
-    <orbiter x="306" y="7830"/>
-    <orbiter x="276" y="7854"/>
-    <orbiter x="156" y="7848"/>
-    <orbiter x="228" y="7800"/>
-    <orbiter x="192" y="7824"/>
-    <orbiter x="228" y="7848"/>
-    <orbiter x="252" y="7860"/>
-    <orbiter x="276" y="7812"/>
+    <jumper x="186" y="7872"/>
+    <jumper x="282" y="7878"/>
+    <jumper x="324" y="7878"/>
+    <jumper x="300" y="7854"/>
+    <jumper x="240" y="7860"/>
+    <jumper x="216" y="7884"/>
+    <jumper x="156" y="7878"/>
+    <orbiter x="96" y="7758"/>
+    <orbiter x="72" y="7776"/>
+    <orbiter x="96" y="7788"/>
+    <orbiter x="120" y="7788"/>
+    <orbiter x="126" y="7752"/>
+    <orbiter x="90" y="7728"/>
+    <orbiter x="72" y="7746"/>
+    <orbiter_center x="102" y="7752"/>
   </actors>
 </level>
