@@ -37,6 +37,7 @@ package loneliness.game
 			x = FP.screen.width / 2;
 			//y = 800;
 			y = MainWorld.height - 50;			
+			//y = MainWorld.height - 700;
 			
 			type = "player";
 			graphic = image;

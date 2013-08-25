@@ -25,7 +25,7 @@ package
 		
 		public static var soundsPlaying:Dictionary = new Dictionary();
 		
-		public static var ostracismCondition:Number = 1; // 1 = Ostracism, 2 = 
+		public static var ostracismCondition:Number = 4; // 1 = Ostracism, 2 = Indifference, 3 = Inclusion, 4 = Smothering
 		
 	}
 

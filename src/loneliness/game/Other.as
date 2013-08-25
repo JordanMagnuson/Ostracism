@@ -8,7 +8,12 @@ package loneliness.game
 	public class Other extends PolarMover
 	{
 		public static const SCARE_RADIUS:Number = 100;	// 40
-		public static const INFLUENCE_RADIUS:Number = 100; // 40 If a wanderer gets within this distance of another type, it will become that type			
+		public static const INFLUENCE_RADIUS:Number = 100; // 40 If a wanderer gets within this distance of another type, it will become that type		
+		
+		
+		public static const SHOULD_SMOTHER_RADIUS:Number = 200;
+		public static const SMOTHER_MIN_RADIUS:Number = 100;
+		public static const SMOTHER_MAX_RADIUS:Number = 200;
 		
 		/**
 		 * Movement constants.
@@ -19,8 +24,16 @@ package loneliness.game
 		 * Movement properties.
 		 */
 		public var spdMax:Number = 0;	
-		public var speed:Number = 0;
+		public var speed:Number = 0; 
 		public var direction:int = 0;		
+		
+		/**
+		 * OstracismCondition properties
+		 */
+		public var shouldSmother:Boolean = false;
+		public var smothering:Boolean = false;
+		public var chasing:Boolean = false;
+		
 		
 		/**
 		 * Graphic
@@ -56,10 +69,38 @@ package loneliness.game
 		{
 			if (offScreen())
 				FP.world.remove(this);
-			if (SuperGlobal.ostracismCondition == 1 && distanceFrom(MainWorld.player) <= SCARE_RADIUS)
-			{
-				leave();
+				
+			switch (SuperGlobal.ostracismCondition) {
+				
+				// Ostracism
+				case 1:
+					if (distanceFrom(MainWorld.player) <= SCARE_RADIUS) {
+						leave();
+					}
+					break;
+					
+				// Indifference
+				case 2:
+					break;
+					
+				// Smothering
+				case 4:
+					if (distanceFrom(MainWorld.player) <= SHOULD_SMOTHER_RADIUS && !this.shouldSmother) {
+						this.shouldSmother = true;
+						this.tellNearbyToSmother();
+					}		
+					if (distanceFrom(MainWorld.player) <= SMOTHER_MIN_RADIUS) {
+						this.smothering = true;					
+					}
+					else if (distanceFrom(MainWorld.player) > SMOTHER_MAX_RADIUS) {
+						this.smothering = false;
+					}
+					//else if (FP.random < 0.02) {
+						//this.smothering = false;
+					//}
+					break;
 			}
+
 			move(speed * FP.elapsed, direction);	
 		}				
 		
@@ -68,8 +109,22 @@ package loneliness.game
 			spdMax = ((y / MainWorld.height) * (SPEED_MAX * (2 / 3))) + (SPEED_MAX * (1 / 3));
 		}		
 		
+		public function tellNearbyToSmother():void {
+			var toInfluence:Array = [];
+			FP.world.collideRectInto('other', x - SMOTHER_MAX_RADIUS, y - SMOTHER_MAX_RADIUS, SMOTHER_MAX_RADIUS * 2, SMOTHER_MAX_RADIUS * 2, toInfluence);
+
+			for each (var other:Other in toInfluence) {
+				other.shouldSmother = true;			
+			}
+		}
+		
+		public function smother():void {
+			
+		}
+		
 		public function leave():void
 		{
+			trace('leave');
 			this.type = 'to_leave';
 			FP.world.remove(this);
 			FP.world.add(new Leaving(this.x, this.y));

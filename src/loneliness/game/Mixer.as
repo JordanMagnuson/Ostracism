@@ -3,11 +3,12 @@ package loneliness.game
 	
 	import net.flashpunk.Entity;
 	import net.flashpunk.FP;
+	import loneliness.rooms.MainWorld;
 
 	public class Mixer extends Other
 	{
 		
-		public var mixCenter:MixerCenter;
+		public var mixCenter:Entity;
 		
 		public var radius:Number;
 		
@@ -33,6 +34,18 @@ package loneliness.game
 			{
 				direction = pointDirection(x, y, mixCenter.x, mixCenter.y);
 			}
+			
+			// Smothering condition
+			if (this.shouldSmother && !this.smothering) {
+				mixCenter = (FP.world.nearestToEntity('player', this) as Entity);
+			}
+			//else if (FP.random < 0.02) {
+				//setSpdMax();
+				//speed = (spdMax / 2) + (FP.random * spdMax / 2);
+				//mixCenter = FP.world.add(new MixerCenter(MainWorld.player.x, MainWorld.player.y));
+				//mixCenter = (FP.world.nearestToEntity('player', this) as Entity);
+				//radius = distanceFrom(mixCenter);				
+			//}			
 		}
 	}
 

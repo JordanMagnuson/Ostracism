@@ -21,6 +21,12 @@ package loneliness.game
 				direction = 0;
 			else if (x >= MainWorld.width - image.width / 2)
 				direction = 180;
+				
+			if (this.shouldSmother && !this.smothering) {
+				direction = pointDirection(x, y, MainWorld.player.x, MainWorld.player.y)	
+				setSpdMax();
+				speed = (spdMax / 2) + (FP.random * spdMax / 2);				
+			}
 		}
 		
 	}
