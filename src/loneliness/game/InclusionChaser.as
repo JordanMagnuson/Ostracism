@@ -33,7 +33,7 @@ package loneliness.game
 		override public function added():void 
 		{
 			// Chance of including, or just ignoring
-			if (FP.random < 0.7) {
+			if (FP.random < 0.8) {
 				tellNearbyToInclude();
 				addTween(sitAlarm, true);
 			}
