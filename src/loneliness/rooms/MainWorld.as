@@ -13,11 +13,13 @@ package loneliness.rooms
 	import loneliness.game.Marcher;
 	import loneliness.game.Mixer;
 	import loneliness.game.MixerCenter;
+	import loneliness.game.Moveable;
 	import loneliness.game.Orbiter;
 	import loneliness.game.OrbiterCenter;
 	import loneliness.game.Other;
 	import loneliness.game.Player;
 	import loneliness.game.Sitter;
+	import net.flashpunk.Entity;
 	import net.flashpunk.graphics.Backdrop;
 	import net.flashpunk.tweens.misc.Alarm;
 	import net.flashpunk.World;
@@ -38,7 +40,7 @@ package loneliness.rooms
 		public static var width:uint;
 		public static var height:uint;		
 		
-		public static var player:Player;	
+		public static var player:Entity;	
 		
 		public var bg01:Background01 = new Background01;
 		public var bg02:Background02 = new Background02;
@@ -78,12 +80,19 @@ package loneliness.rooms
 			height = 16000;	
 			loadLevel(LEVEL);		
 			backgroundAlarm = new Alarm(1, updateBackground);
+			
+			Input.define("U", Key.UP, Key.W);
+			Input.define("D", Key.DOWN, Key.S);			
+			Input.define("L", Key.LEFT, Key.A);	
+			Input.define("R", Key.RIGHT, Key.D);				
 		}
 		
 		override public function begin():void
 		{
 			add(bg01);
-			add(player = new Player);
+			var playerX:Number = FP.screen.width / 2;
+			var playerY:Number = MainWorld.height - 50;	
+			add(player = new Player(playerX, playerY));
 			addTween(backgroundAlarm, true);
 			
 			//music.loop();
@@ -108,7 +117,7 @@ package loneliness.rooms
 			{
 				// Clear tweens (eg fading sounds, FP.alarm, etc.)
 				FP.tweener.clearTweens();
-				
+				SuperGlobal.inclusionChaserChanceOfFollowing = SuperGlobal.CHANCE_OF_FOLLOWING_INITIAL;
 				FP.world = new MainWorld;
 			}			
 			
@@ -117,7 +126,8 @@ package loneliness.rooms
 			{
 				// Clear tweens (eg fading sounds, FP.alarm, etc.)
 				FP.tweener.clearTweens();
-				
+				SuperGlobal.inclusionChaserChanceOfFollowing = SuperGlobal.CHANCE_OF_FOLLOWING_INITIAL;
+				SuperGlobal.inclusionFollowers = 0;
 				SuperGlobal.ostracismCondition = 1;
 				FP.world = new MainWorld;
 			}					
@@ -125,8 +135,27 @@ package loneliness.rooms
 			{
 				// Clear tweens (eg fading sounds, FP.alarm, etc.)
 				FP.tweener.clearTweens();
-				
+				SuperGlobal.inclusionChaserChanceOfFollowing = SuperGlobal.CHANCE_OF_FOLLOWING_INITIAL;
+				SuperGlobal.inclusionFollowers = 0;
 				SuperGlobal.ostracismCondition = 2;
+				FP.world = new MainWorld;
+			}			
+			else if (Input.pressed(Key.DIGIT_3)) 
+			{
+				// Clear tweens (eg fading sounds, FP.alarm, etc.)
+				FP.tweener.clearTweens();
+				SuperGlobal.inclusionChaserChanceOfFollowing = SuperGlobal.CHANCE_OF_FOLLOWING_INITIAL;
+				SuperGlobal.inclusionFollowers = 0;
+				SuperGlobal.ostracismCondition = 3;
+				FP.world = new MainWorld;
+			}		
+			else if (Input.pressed(Key.DIGIT_4)) 
+			{
+				// Clear tweens (eg fading sounds, FP.alarm, etc.)
+				FP.tweener.clearTweens();
+				SuperGlobal.inclusionChaserChanceOfFollowing = SuperGlobal.CHANCE_OF_FOLLOWING_INITIAL;
+				SuperGlobal.inclusionFollowers = 0;
+				SuperGlobal.ostracismCondition = 4;
 				FP.world = new MainWorld;
 			}					
 			

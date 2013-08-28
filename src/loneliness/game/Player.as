@@ -18,6 +18,9 @@ package loneliness.game
 		public const ACCEL:Number = 800;
 		public const DRAG:Number = 800;
 		
+		// Inclusion
+		public const INCLUSION_MIN_DISTANCE_TO_JOIN:Number = 100;
+		
 		/**
 		 * Movement properties.
 		 */
@@ -31,17 +34,18 @@ package loneliness.game
 		//[Embed(source='../../../assets/loneliness/gfx/player.png')] private const S_PLAYER:Class;
 		//public var image:Image = new Image(S_PLAYER);	
 		public var image:Image = Image.createRect(12, 12, Colors.BLACK);
+		public var colorNum:Number = 0;
 		
-		public function Player() 
+		public function Player(x:Number = 0, y:Number = 0) 
 		{
-			x = FP.screen.width / 2;
-			//y = 800;
-			y = MainWorld.height - 50;			
+			this.x = x;
+			this.y = y;
 			//y = MainWorld.height - 700;
 			
 			type = "player";
 			graphic = image;
 			layer = 0;
+			this.image.color = Colors.BLACK;
 			
 			//image.originX = image.width / 2;
 			//image.originY = image.height / 2;
@@ -50,12 +54,7 @@ package loneliness.game
 			
 			image.centerOO();
 			
-			setHitbox(image.width, image.height, image.originX, image.originY);
-			
-			Input.define("U", Key.UP, Key.W);
-			Input.define("D", Key.DOWN, Key.S);			
-			Input.define("L", Key.LEFT, Key.A);	
-			Input.define("R", Key.RIGHT, Key.D);		
+			setHitbox(image.width, image.height, image.originX, image.originY);	
 		}
 		
 		/**
@@ -63,6 +62,10 @@ package loneliness.game
 		 */		
 		override public function update():void 
 		{
+			// Inclusion condition
+			if (SuperGlobal.ostracismCondition ==  3) {
+				checkInclusion();
+			}
 			setSpdMax();
 			acceleration();
 			move(spdX * FP.elapsed, spdY * FP.elapsed);	
@@ -72,7 +75,48 @@ package loneliness.game
 				//FP.world.add(new ChildrenAndText);
 				FP.world = new MessageScreen;
 			}
+			
+			if (Input.pressed(Key.R)) 
+			{
+				switch(colorNum) {
+					case 0:
+						this.image.color = Colors.BLOOD_RED;
+						colorNum++;
+						break;
+					case 1: 
+						this.image.color = Colors.DARK_BROWN;
+						colorNum++;
+						break;
+					default:
+						this.image.color = Colors.BLACK;
+						colorNum = 0;
+						break;
+				}
+				//this.image.color = Colors.BLOOD_RED;
+			}		
+			if (Input.pressed(Key.B)) 
+			{
+				this.image.color = Colors.BLACK;
+			}	
+			if (Input.pressed(Key.E)) 
+			{
+				this.image.color = Colors.FOREST_BROWN;
+			}	
 		}		
+		
+		public function checkInclusion():void {
+			if (Input.check("U") || Input.check("D") || Input.check("L") || Input.check("R")) {
+				return;		
+			}
+			
+			var nearestOther:Other = (FP.world.nearestNotFollowing('other', this) as Other);
+			if (distanceFrom(nearestOther) <= INCLUSION_MIN_DISTANCE_TO_JOIN) {
+				var transformInto:Class = nearestOther.getClass();
+				trace('nearest other: ' + nearestOther);
+				FP.world.add(MainWorld.player = new transformInto(x, y, 'player') as Other);
+				FP.world.remove(this);
+			}
+		}	
 		
 		/**
 		 * Speed

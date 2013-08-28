@@ -2,6 +2,7 @@
 {
 	import flash.geom.Point;
 	import flash.utils.Dictionary;
+	import loneliness.game.Other;
 
 	/**
 	 * Updated by Engine, main game container that holds all currently active Entities.
@@ -647,6 +648,37 @@
 			}
 			return near;
 		}
+		
+		/**
+		 * Finds the Entity nearest to another.
+		 * @param	type		The Entity type to check for.
+		 * @param	e			The Entity to find the nearest to.
+		 * @param	useHitboxes	If the Entities' hitboxes should be used to determine the distance. If false, their x/y coordinates are used.
+		 * @return	The nearest Entity to e.
+		 */
+		public function nearestNotFollowing(type:String, e:Entity, useHitboxes:Boolean = false):Entity
+		{
+			if (useHitboxes) return nearestToRect(type, e.x - e.originX, e.y - e.originY, e.width, e.height);
+			var n:Entity = _typeFirst[type],
+				nearDist:Number = Number.MAX_VALUE,
+				near:Entity, dist:Number,
+				x:Number = e.x - e.originX,
+				y:Number = e.y - e.originY;
+			while (n)
+			{
+				if (n != e && (n as Other).mode != 'smothering')
+				{
+					dist = (x - n.x) * (x - n.x) + (y - n.y) * (y - n.y);
+					if (dist < nearDist)
+					{
+						nearDist = dist;
+						near = n;
+					}
+				}
+				n = n._typeNext;
+			}
+			return near;
+		}		
 		
 		/**
 		 * Finds the Entity nearest to the position.

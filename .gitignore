@@ -3,3 +3,5 @@
 /bin/
 /bat/
 /obj/
+/flash builder release/
+/.settings/

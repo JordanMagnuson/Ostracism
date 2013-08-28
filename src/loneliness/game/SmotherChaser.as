@@ -12,6 +12,7 @@ package loneliness.game
 	{
 		public const TURN_TO_PLAYER_TIME:Number = 1 + (FP.random * 2);
 		
+		public var attainedCloseness:Boolean = false;
 		public var transformInto:Class;
 		public var turnToPlayerAlarm:Alarm = new Alarm(TURN_TO_PLAYER_TIME, turnToPlayer);
 		
@@ -27,23 +28,32 @@ package loneliness.game
 		
 		override public function added():void 
 		{
-			tellNearbyToSmother();
+			if (SuperGlobal.ostracismCondition == 4) {
+				// Smothering condition
+				tellNearbyToSmother();
+			}
 			addTween(turnToPlayerAlarm, true);
 		}
 		
 		override public function update():void
 		{
-			if (distanceFrom(MainWorld.player) <= SMOTHER_MIN_RADIUS && FP.random < 0.02) {
+			if (distanceFrom(MainWorld.player) <= SMOTHER_MIN_RADIUS) {
+				attainedCloseness = true;
+			}					
+			
+			if (attainedCloseness && FP.random < 0.02) {
 				FP.world.remove(this);
 				FP.world.add(new transformInto(x, y, 'smothering'));
-			}					
+			}
 			
 			move(speed * FP.elapsed, direction);
 		}		
 		
 		public function turnToPlayer():void 
 		{
-			direction = pointDirection(x, y, MainWorld.player.x, MainWorld.player.y);
+			if (distanceFrom(MainWorld.player) > SMOTHER_MIN_RADIUS) {
+				direction = pointDirection(x, y, MainWorld.player.x, MainWorld.player.y);
+			}
 			turnToPlayerAlarm.reset(TURN_TO_PLAYER_TIME);
 		}
 		

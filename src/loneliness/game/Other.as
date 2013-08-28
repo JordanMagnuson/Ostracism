@@ -4,15 +4,24 @@ package loneliness.game
 	import net.flashpunk.graphics.Image;
 	import net.flashpunk.FP;
 	import loneliness.rooms.MainWorld;
+	import net.flashpunk.tweens.misc.Alarm;
+	import net.flashpunk.utils.Input;
 	
 	public class Other extends PolarMover
 	{
 		public static const SCARE_RADIUS:Number = 100;	// 40
 		public static const INFLUENCE_RADIUS:Number = 100; // 40 If a wanderer gets within this distance of another type, it will become that type		
 		
+		// Smothering
 		public static const SHOULD_SMOTHER_RADIUS:Number = 150;
-		public static const SMOTHER_MIN_RADIUS:Number = 150;
+		public static const SMOTHER_MIN_RADIUS:Number = 100;
 		public static const SMOTHER_MAX_RADIUS:Number = 150;
+		
+		// Inclusion
+		public static const SHOULD_INCLUDE_RADIUS:Number = 100;
+		public static const INCLUDE_INFLUENCE_RADIUS:Number = 0;
+		//public static const INCLUDE_MOVE_WAIT:Number = FP.random * 0.1;
+		//public var includeAlarm:Alarm = new Alarm(INCLUDE_MOVE_WAIT, includePlayer);
 		
 		/**
 		 * Movement constants.
@@ -60,6 +69,12 @@ package loneliness.game
 			this.mode = mode;
 		}
 		
+		override public function added():void {
+			//if (SuperGlobal.ostracismCondition == 3) {
+				//addTween(includeAlarm, true);
+			//}
+		}
+		
 		/**
 		 * Update the other.
 		 */		
@@ -67,6 +82,13 @@ package loneliness.game
 		{
 			if (offScreen())
 				FP.world.remove(this);
+				
+			if (this.mode == 'player') {
+				if (Input.check("U") || Input.check("D") || Input.check("L") || Input.check("R")) {
+					FP.world.add(MainWorld.player = new Player(x, y));
+					FP.world.remove(this);
+				}
+			}
 				
 			switch (SuperGlobal.ostracismCondition) {
 				
@@ -80,18 +102,26 @@ package loneliness.game
 				// Indifference
 				case 2:
 					break;
-					
+				
+				// Inclusion
+				case 3:
+					if (distanceFrom(MainWorld.player) <= SHOULD_INCLUDE_RADIUS && this.mode != 'including' && this.mode != 'player' && this.mode != 'smothering') {
+						this.mode = 'including';
+						includePlayer();
+					}			
+					break;
 				// Smothering
 				case 4:
 					if (distanceFrom(MainWorld.player) <= SHOULD_SMOTHER_RADIUS && this.mode != 'smothering') {
 						smother();
 					}		
-					else if (this.mode == 'smothering' && distanceFrom(MainWorld.player) > SMOTHER_MAX_RADIUS) {
-						smother();
-					}
 					break;
 			}
 
+			if (this.mode == 'smothering' && distanceFrom(MainWorld.player) > SMOTHER_MAX_RADIUS) {
+				smother();
+			}			
+			
 			move(speed * FP.elapsed, direction);	
 		}				
 		
@@ -113,6 +143,14 @@ package loneliness.game
 			this.type = 'to_smother';
 			FP.world.remove(this);
 			FP.world.add(new SmotherChaser(this.x, this.y, this.getClass()));			
+		}
+		
+		public function includePlayer():void {
+			if (this.mode == 'including') {
+				this.type = 'to_include';
+				FP.world.remove(this);
+				FP.world.add(new InclusionChaser(this.x, this.y, this.getClass()));
+			}
 		}
 		
 		public function leave():void
