@@ -18,7 +18,7 @@ package
 		public function Main() 
 		{
 			super(SuperGlobal.SCREEN_WIDTH, SuperGlobal.SCREEN_HEIGHT, 60);
-			FP.screen.color = Colors.BLACK;
+			FP.screen.color = Colors.WHITE;
 			//FP.screen.color = Colors.WHITE;
 			
 			// Console for debugging

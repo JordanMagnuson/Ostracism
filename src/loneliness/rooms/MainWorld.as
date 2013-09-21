@@ -42,15 +42,15 @@ package loneliness.rooms
 		
 		public static var player:Entity;	
 		
-		public var bg01:Background01 = new Background01;
-		public var bg02:Background02 = new Background02;
-		public var bg03:Background03 = new Background03;
-		public var bg04:Background04 = new Background04;
-		public var bg05:Background05 = new Background05;
-		public var bg06:Background06 = new Background06;
-		public var bg07:Background07 = new Background07;
-		public var bg08:Background08 = new Background08;
-		public var backgroundAlarm:Alarm;
+		//public var bg01:Background01 = new Background01;
+		//public var bg02:Background02 = new Background02;
+		//public var bg03:Background03 = new Background03;
+		//public var bg04:Background04 = new Background04;
+		//public var bg05:Background05 = new Background05;
+		//public var bg06:Background06 = new Background06;
+		//public var bg07:Background07 = new Background07;
+		//public var bg08:Background08 = new Background08;
+		//public var backgroundAlarm:Alarm;
 		
 		/**
 		 * The loading XML file.
@@ -79,7 +79,7 @@ package loneliness.rooms
 			width = FP.width;
 			height = 16000;	
 			loadLevel(LEVEL);		
-			backgroundAlarm = new Alarm(1, updateBackground);
+			//backgroundAlarm = new Alarm(1, updateBackground);
 			
 			Input.define("U", Key.UP, Key.W);
 			Input.define("D", Key.DOWN, Key.S);			
@@ -89,11 +89,11 @@ package loneliness.rooms
 		
 		override public function begin():void
 		{
-			add(bg01);
+			//add(bg01);
 			var playerX:Number = FP.screen.width / 2;
 			var playerY:Number = MainWorld.height - 50;	
 			add(player = new Player(playerX, playerY));
-			addTween(backgroundAlarm, true);
+			//addTween(backgroundAlarm, true);
 			
 			//music.loop();
 			//FP.world = new MessageScreen;
@@ -180,105 +180,105 @@ package loneliness.rooms
 				//trace('finished');
 		}		
 		
-		public function updateBackground():void
-		{
+		//public function updateBackground():void
+		//{
 			// Alarm
-			backgroundAlarm.reset(1);
-			
+			//backgroundAlarm.reset(1);
+			//
 			// Background 01
-			if (player.y > 12000) 
-			{
-				if (classCount(Background01) == 0) 
-				{
-					add(bg01);
-					trace('bg 1 added');
-				}
-			}
-			else 
-			{
-				if (classCount(Background01) > 0) remove(bg01);
-			}		
-			
+			//if (player.y > 12000) 
+			//{
+				//if (classCount(Background01) == 0) 
+				//{
+					//add(bg01);
+					//trace('bg 1 added');
+				//}
+			//}
+			//else 
+			//{
+				//if (classCount(Background01) > 0) remove(bg01);
+			//}		
+			//
 			// Background 02
-			if (player.y > 10000) 
-			{
-				if (classCount(Background02) == 0) 
-				{
-					add(bg02);
-					trace('bg 2 added');
-				}
-			}
-			else 
-			{
-				if (classCount(Background02) > 0) remove(bg02);
-			}	
-			
+			//if (player.y > 10000) 
+			//{
+				//if (classCount(Background02) == 0) 
+				//{
+					//add(bg02);
+					//trace('bg 2 added');
+				//}
+			//}
+			//else 
+			//{
+				//if (classCount(Background02) > 0) remove(bg02);
+			//}	
+			//
 			// Background 03
-			if (player.y > 8000 && player.y < 14000) 
-			{
-				if (classCount(Background03) == 0) add(bg03);
-				trace('bg 3 added');
-			}
-			else 
-			{
-				if (classCount(Background03) > 0) remove(bg03);
-			}		
-			
+			//if (player.y > 8000 && player.y < 14000) 
+			//{
+				//if (classCount(Background03) == 0) add(bg03);
+				//trace('bg 3 added');
+			//}
+			//else 
+			//{
+				//if (classCount(Background03) > 0) remove(bg03);
+			//}		
+			//
 			// Background 04
-			if (player.y > 6000 && player.y < 12000) 
-			{
-				if (classCount(Background04) == 0) add(bg04);
-				trace('bg 4 added');
-			}
-			else 
-			{
-				if (classCount(Background04) > 0) remove(bg04);
-			}		
-			
+			//if (player.y > 6000 && player.y < 12000) 
+			//{
+				//if (classCount(Background04) == 0) add(bg04);
+				//trace('bg 4 added');
+			//}
+			//else 
+			//{
+				//if (classCount(Background04) > 0) remove(bg04);
+			//}		
+			//
 			// Background 05
-			if (player.y > 4000 && player.y < 10000) 
-			{
-				if (classCount(Background05) == 0) add(bg05);
-				trace('bg 5 added');
-			}
-			else 
-			{
-				if (classCount(Background05) > 0) remove(bg05);
-			}	
-			
+			//if (player.y > 4000 && player.y < 10000) 
+			//{
+				//if (classCount(Background05) == 0) add(bg05);
+				//trace('bg 5 added');
+			//}
+			//else 
+			//{
+				//if (classCount(Background05) > 0) remove(bg05);
+			//}	
+			//
 			// Background 06
-			if (player.y > 2000 && player.y < 8000) 
-			{
-				if (classCount(Background06) == 0) add(bg06);
-				trace('bg 6 added');
-			}
-			else 
-			{
-				if (classCount(Background06) > 0) remove(bg06);
-			}	
-			
+			//if (player.y > 2000 && player.y < 8000) 
+			//{
+				//if (classCount(Background06) == 0) add(bg06);
+				//trace('bg 6 added');
+			//}
+			//else 
+			//{
+				//if (classCount(Background06) > 0) remove(bg06);
+			//}	
+			//
 			// Background 07
-			if (player.y < 6000) 
-			{
-				if (classCount(Background07) == 0) add(bg07);
-				trace('bg 7 added');
-			}
-			else 
-			{
-				if (classCount(Background07) > 0) remove(bg07);
-			}	
-			
+			//if (player.y < 6000) 
+			//{
+				//if (classCount(Background07) == 0) add(bg07);
+				//trace('bg 7 added');
+			//}
+			//else 
+			//{
+				//if (classCount(Background07) > 0) remove(bg07);
+			//}	
+			//
 			// Background 08
-			if (player.y < 4000) 
-			{
-				if (classCount(Background08) == 0) add(bg08);
-				trace('bg 8 added');
-			}
-			else 
-			{
-				if (classCount(Background08) > 0) remove(bg08);
-			}				
-		}
+			//if (player.y < 4000) 
+			//{
+				//if (classCount(Background08) == 0) add(bg08);
+				//trace('bg 8 added');
+			//}
+			//else 
+			//{
+				//if (classCount(Background08) > 0) remove(bg08);
+			//}				
+		//}
 		
 		/**
 		 * Render the world.
