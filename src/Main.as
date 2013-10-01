@@ -2,6 +2,7 @@ package
 {
 	import flash.display.Sprite;
 	import flash.events.Event;
+	import loneliness.rooms.ClickNextScreen;
 	import net.flashpunk.Engine;
 	import net.flashpunk.FP;
 	import flash.ui.Mouse;	
@@ -11,13 +12,13 @@ package
 	import flash.geom.Rectangle;
 	import flash.events.KeyboardEvent;
 	
-	[SWF(width='1024',height='600',backgroundColor='#000000',frameRate='60')]
+	[SWF(width=SuperGlobal.SCREEN_WIDTH,height=SuperGlobal.SCREEN_HEIGHT,backgroundColor='#000000',frameRate=SuperGlobal.FRAME_RATE)]
 	
 	public class Main extends Engine
 	{
 		public function Main() 
 		{
-			super(SuperGlobal.SCREEN_WIDTH, SuperGlobal.SCREEN_HEIGHT, 60);
+			super(SuperGlobal.SCREEN_WIDTH, SuperGlobal.SCREEN_HEIGHT, SuperGlobal.FRAME_RATE);
 			FP.screen.color = Colors.WHITE;
 			//FP.screen.color = Colors.WHITE;
 			
@@ -29,8 +30,9 @@ package
 			//Mouse.hide();
 		}
 		
-		public function reset(width:uint, height:uint, frameRate:Number = 60, fixed:Boolean = false):void
+		public function reset(width:uint, height:uint, frameRate:Number = 30, fixed:Boolean = false):void
 		{
+			FP.frameRate = SuperGlobal.FRAME_RATE;
 			// First, black out current screen
 			//FP.screen = new Screen;
 		
@@ -74,12 +76,16 @@ package
 		override public function init():void
 		{
 			// Full screen
-			FP.stage.scaleMode = StageScaleMode.SHOW_ALL;
-			FP.stage.fullScreenSourceRect = new Rectangle(0, 0, SuperGlobal.SCREEN_WIDTH, SuperGlobal.SCREEN_HEIGHT);
-			FP.stage.displayState = StageDisplayState.FULL_SCREEN_INTERACTIVE;	
+			if (SuperGlobal.FULL_SCREEN) {
+				FP.stage.scaleMode = StageScaleMode.SHOW_ALL;
+				FP.stage.fullScreenSourceRect = new Rectangle(0, 0, SuperGlobal.SCREEN_WIDTH, SuperGlobal.SCREEN_HEIGHT);
+				FP.stage.displayState = StageDisplayState.FULL_SCREEN_INTERACTIVE;	
+				
+				// Listen for Esc key, prevent exiting full screen
+				//FP.stage.addEventListener(KeyboardEvent.KEY_DOWN, preventEsc);
+			}
 			
-			// Listen for Esc key, prevent exiting full screen
-			//FP.stage.addEventListener(KeyboardEvent.KEY_DOWN, preventEsc);
+			// Super
 			super.init();
 		}			
 	}

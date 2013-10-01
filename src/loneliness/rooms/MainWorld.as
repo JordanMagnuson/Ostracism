@@ -9,6 +9,7 @@ package loneliness.rooms
 	import loneliness.game.Background06;
 	import loneliness.game.Background07;
 	import loneliness.game.Background08;
+	import loneliness.game.FadeOut;
 	import loneliness.game.Jumper;
 	import loneliness.game.Marcher;
 	import loneliness.game.Mixer;
@@ -41,6 +42,8 @@ package loneliness.rooms
 		public static var height:uint;		
 		
 		public static var player:Entity;	
+		
+		public static var timer:Alarm;
 		
 		//public var bg01:Background01 = new Background01;
 		//public var bg02:Background02 = new Background02;
@@ -100,6 +103,10 @@ package loneliness.rooms
 			
 			Mouse.hide();
 			
+			// Fade out timer
+			timer = new Alarm(180, fadeOut);
+			addTween(timer, true);
+			
 			//alarm to update background
 			//FP.alarm(1, updateBackground);
 			
@@ -113,51 +120,51 @@ package loneliness.rooms
 		override public function update():void 
 		{			
 			// Start Over
-			if (Input.pressed(SuperGlobal.RETURN_KEY)) 
-			{
+			//if (Input.pressed(SuperGlobal.RETURN_KEY)) 
+			//{
 				// Clear tweens (eg fading sounds, FP.alarm, etc.)
-				FP.tweener.clearTweens();
-				SuperGlobal.inclusionChaserChanceOfFollowing = SuperGlobal.CHANCE_OF_FOLLOWING_INITIAL;
-				FP.world = new MainWorld;
-			}			
+				//FP.tweener.clearTweens();
+				//SuperGlobal.reset();
+				//FP.world = new MainWorld;
+			//}			
 			
 			// Change ostracism conditon and restart
-			if (Input.pressed(Key.DIGIT_1)) 
-			{
+			//if (Input.pressed(Key.DIGIT_1)) 
+			//{
 				// Clear tweens (eg fading sounds, FP.alarm, etc.)
-				FP.tweener.clearTweens();
-				SuperGlobal.inclusionChaserChanceOfFollowing = SuperGlobal.CHANCE_OF_FOLLOWING_INITIAL;
-				SuperGlobal.inclusionFollowers = 0;
-				SuperGlobal.ostracismCondition = 1;
-				FP.world = new MainWorld;
-			}					
-			else if (Input.pressed(Key.DIGIT_2)) 
-			{
+				//FP.tweener.clearTweens();
+				//SuperGlobal.inclusionChaserChanceOfFollowing = SuperGlobal.CHANCE_OF_FOLLOWING_INITIAL;
+				//SuperGlobal.inclusionFollowers = 0;
+				//SuperGlobal.ostracismCondition = 1;
+				//FP.world = new MainWorld;
+			//}					
+			//else if (Input.pressed(Key.DIGIT_2)) 
+			//{
 				// Clear tweens (eg fading sounds, FP.alarm, etc.)
-				FP.tweener.clearTweens();
-				SuperGlobal.inclusionChaserChanceOfFollowing = SuperGlobal.CHANCE_OF_FOLLOWING_INITIAL;
-				SuperGlobal.inclusionFollowers = 0;
-				SuperGlobal.ostracismCondition = 2;
-				FP.world = new MainWorld;
-			}			
-			else if (Input.pressed(Key.DIGIT_3)) 
-			{
+				//FP.tweener.clearTweens();
+				//SuperGlobal.inclusionChaserChanceOfFollowing = SuperGlobal.CHANCE_OF_FOLLOWING_INITIAL;
+				//SuperGlobal.inclusionFollowers = 0;
+				//SuperGlobal.ostracismCondition = 2;
+				//FP.world = new MainWorld;
+			//}			
+			//else if (Input.pressed(Key.DIGIT_3)) 
+			//{
 				// Clear tweens (eg fading sounds, FP.alarm, etc.)
-				FP.tweener.clearTweens();
-				SuperGlobal.inclusionChaserChanceOfFollowing = SuperGlobal.CHANCE_OF_FOLLOWING_INITIAL;
-				SuperGlobal.inclusionFollowers = 0;
-				SuperGlobal.ostracismCondition = 3;
-				FP.world = new MainWorld;
-			}		
-			else if (Input.pressed(Key.DIGIT_4)) 
-			{
+				//FP.tweener.clearTweens();
+				//SuperGlobal.inclusionChaserChanceOfFollowing = SuperGlobal.CHANCE_OF_FOLLOWING_INITIAL;
+				//SuperGlobal.inclusionFollowers = 0;
+				//SuperGlobal.ostracismCondition = 3;
+				//FP.world = new MainWorld;
+			//}		
+			//else if (Input.pressed(Key.DIGIT_4)) 
+			//{
 				// Clear tweens (eg fading sounds, FP.alarm, etc.)
-				FP.tweener.clearTweens();
-				SuperGlobal.inclusionChaserChanceOfFollowing = SuperGlobal.CHANCE_OF_FOLLOWING_INITIAL;
-				SuperGlobal.inclusionFollowers = 0;
-				SuperGlobal.ostracismCondition = 4;
-				FP.world = new MainWorld;
-			}					
+				//FP.tweener.clearTweens();
+				//SuperGlobal.inclusionChaserChanceOfFollowing = SuperGlobal.CHANCE_OF_FOLLOWING_INITIAL;
+				//SuperGlobal.inclusionFollowers = 0;
+				//SuperGlobal.ostracismCondition = 4;
+				//FP.world = new MainWorld;
+			//}					
 			
 			// update entities
 			super.update();
@@ -179,6 +186,18 @@ package loneliness.rooms
 			//else
 				//trace('finished');
 		}		
+		
+		public function fadeOut():void
+		{
+			add(new FadeOut(ClickNextScreen, Colors.BLACK, 3));
+		}
+		
+		public function endGame():void
+		{
+			FP.tweener.clearTweens();
+			SuperGlobal.reset();
+			FP.world = new MessageScreen;
+		}
 		
 		//public function updateBackground():void
 		//{
