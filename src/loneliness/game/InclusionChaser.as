@@ -52,19 +52,33 @@ package loneliness.game
 		
 		public function transformBack():void {
 			trace('chance of following: ' + SuperGlobal.inclusionChaserChanceOfFollowing);
-			if (SuperGlobal.inclusionFollowers < SuperGlobal.MAX_FOLLOWERS && FP.random <= SuperGlobal.inclusionChaserChanceOfFollowing) {
-				this.type = 'to_smother';
-				FP.world.remove(this);
-				FP.world.add(new SmotherChaser(this.x, this.y, this.transformInto));		
-				SuperGlobal.inclusionChaserChanceOfFollowing -= SuperGlobal.CHANCE_OF_FOLLOWING_CHANGE;
-				SuperGlobal.inclusionFollowers++;
-				trace('followers: ' + SuperGlobal.inclusionFollowers);
+
+			if (MainWorld.player.y < 8000) 
+			{
+				// Towards top of screen
+				if (FP.random <= 0.5) 
+				{
+					follow();
+				}
 			}
-			else {
+			else if (SuperGlobal.inclusionFollowers < SuperGlobal.MAX_FOLLOWERS && FP.random <= SuperGlobal.inclusionChaserChanceOfFollowing) 
+			{
+				follow();
+			}
+			else 
+			{
 				FP.world.remove(this);
 				var newMode:String = FP.choose('', '', 'including');
 				FP.world.add(new transformInto(x, y, newMode));
 			}
+		}
+		
+		public function follow():void {
+			this.type = 'to_smother';
+			FP.world.remove(this);
+			FP.world.add(new SmotherChaser(this.x, this.y, this.transformInto));		
+			SuperGlobal.inclusionChaserChanceOfFollowing -= SuperGlobal.CHANCE_OF_FOLLOWING_CHANGE;
+			SuperGlobal.inclusionFollowers++;			
 		}
 		
 		public function sit():void {

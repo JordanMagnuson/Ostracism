@@ -94,7 +94,7 @@ package
 				{
 					addChild(clickSprite);
 					clickSprite.x = (stage.stageWidth / 2) - clickSprite.width / 2;
-					clickSprite.y = 430;
+					clickSprite.y = 400;
 					stage.addEventListener(MouseEvent.CLICK, clickStartup);
 				}
 				else

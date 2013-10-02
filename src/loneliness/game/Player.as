@@ -71,37 +71,38 @@ package loneliness.game
 			move(spdX * FP.elapsed, spdY * FP.elapsed);	
 			if (y <= 400)
 			{
-				FP.world.remove(this);
+				(FP.world as MainWorld).fadeOut();
+				//FP.world.remove(this);
 				//FP.world.add(new ChildrenAndText);
-				FP.world = new MessageScreen;
+				//FP.world = new MessageScreen;
 			}
 			
-			if (Input.pressed(Key.R)) 
-			{
-				switch(colorNum) {
-					case 0:
-						this.image.color = Colors.BLOOD_RED;
-						colorNum++;
-						break;
-					case 1: 
-						this.image.color = Colors.DARK_BROWN;
-						colorNum++;
-						break;
-					default:
-						this.image.color = Colors.BLACK;
-						colorNum = 0;
-						break;
-				}
+			//if (Input.pressed(Key.R)) 
+			//{
+				//switch(colorNum) {
+					//case 0:
+						//this.image.color = Colors.BLOOD_RED;
+						//colorNum++;
+						//break;
+					//case 1: 
+						//this.image.color = Colors.DARK_BROWN;
+						//colorNum++;
+						//break;
+					//default:
+						//this.image.color = Colors.BLACK;
+						//colorNum = 0;
+						//break;
+				//}
 				//this.image.color = Colors.BLOOD_RED;
-			}		
-			if (Input.pressed(Key.B)) 
-			{
-				this.image.color = Colors.BLACK;
-			}	
-			if (Input.pressed(Key.E)) 
-			{
-				this.image.color = Colors.FOREST_BROWN;
-			}	
+			//}		
+			//if (Input.pressed(Key.B)) 
+			//{
+				//this.image.color = Colors.BLACK;
+			//}	
+			//if (Input.pressed(Key.E)) 
+			//{
+				//this.image.color = Colors.FOREST_BROWN;
+			//}	
 		}		
 		
 		public function checkInclusion():void {

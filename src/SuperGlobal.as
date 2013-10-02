@@ -28,12 +28,12 @@ package
 		
 		public static var soundsPlaying:Dictionary = new Dictionary();
 		
-		public static var ostracismCondition:Number = 4; // 1 = Ostracism, 2 = Indifference, 3 = Inclusion, 4 = Smothering
+		public static var ostracismCondition:Number = 3; // 1 = Ostracism, 2 = Indifference, 3 = Inclusion, 4 = Smothering
 		
 		
 		
 		public static const CHANCE_OF_FOLLOWING_INITIAL:Number = 0.15;
-		public static const CHANCE_OF_FOLLOWING_CHANGE:Number = 0.01;
+		public static const CHANCE_OF_FOLLOWING_CHANGE:Number = 0.015;
 		public static const MAX_FOLLOWERS:Number = 5;
 		public static var inclusionFollowers:Number = 0;
 		public static var inclusionChaserChanceOfFollowing:Number = CHANCE_OF_FOLLOWING_INITIAL;
