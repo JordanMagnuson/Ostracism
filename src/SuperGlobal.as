@@ -17,6 +17,11 @@ package
 		public static const SCREEN_HEIGHT:Number = 500;
 		public static const FRAME_RATE:Number = 60;
 		public static const FULL_SCREEN:Boolean = false;
+		public static const SHOW_BACKGROUND:Boolean = true; // 0 = no background; 1 = constant clouds; 2 = clouds that get darker
+		public static const MUSIC:Boolean = false;
+		
+		// Define background for easy change
+		[Embed(source="../assets/loneliness/gfx/clouds_constant.jpg")] public static const BACKGROUND_IMAGE:Class;		
 		
 		public static const RETURN_KEY:int = Key.ESCAPE;
 		public static const FULLSCREEN_KEY:int = Key.F;
@@ -28,7 +33,7 @@ package
 		
 		public static var soundsPlaying:Dictionary = new Dictionary();
 		
-		public static var ostracismCondition:Number = 3; // 1 = Ostracism, 2 = Indifference, 3 = Inclusion, 4 = Smothering
+		public static var ostracismCondition:Number = 4; // 1 = Ostracism, 2 = Indifference, 3 = Inclusion, 4 = Smothering
 		
 		
 		

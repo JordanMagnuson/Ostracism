@@ -1,6 +1,7 @@
 package loneliness.rooms 
 {
 	import flash.utils.Dictionary;
+	import loneliness.game.Background;
 	import loneliness.game.Background01;
 	import loneliness.game.Background02;
 	import loneliness.game.Background03;
@@ -75,7 +76,7 @@ package loneliness.rooms
 		 * Sound
 		 */
 		[Embed(source='../../../assets/loneliness/sound/Sounds.swf', symbol='blue_paint_loop.mp3')] public static const MUSIC:Class;
-		public static var music:Sfx = new Sfx(MUSIC);			
+		public static var music:Sfx = new Sfx(MUSIC);				
 		
 		public function MainWorld() 
 		{			
@@ -99,7 +100,10 @@ package loneliness.rooms
 			add(player = new Player(playerX, playerY));
 			//addTween(backgroundAlarm, true);
 			
-			//music.loop();
+			if (SuperGlobal.MUSIC) {
+				music.loop();
+			}
+			
 			//FP.world = new MessageScreen;
 			
 			Mouse.hide();
@@ -107,6 +111,11 @@ package loneliness.rooms
 			// Fade out timer
 			timer = new Alarm(180, fadeOut);
 			addTween(timer, true);
+			
+			// Background
+			if (SuperGlobal.SHOW_BACKGROUND) {
+				add(new Background(0, 0));
+			}
 			
 			//alarm to update background
 			//FP.alarm(1, updateBackground);

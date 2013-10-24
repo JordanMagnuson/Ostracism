@@ -69,12 +69,15 @@ package loneliness.game
 			setSpdMax();
 			acceleration();
 			move(spdX * FP.elapsed, spdY * FP.elapsed);	
-			if (y <= 400)
-			{
-				(FP.world as MainWorld).fadeOut();
+			//if (y <= 400)
+			//{
 				//FP.world.remove(this);
 				//FP.world.add(new ChildrenAndText);
 				//FP.world = new MessageScreen;
+			//}
+			if (y <= 2500)
+			{
+				(FP.world as MainWorld).fadeOut();
 			}
 			
 			//if (Input.pressed(Key.R)) 
