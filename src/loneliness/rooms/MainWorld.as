@@ -95,7 +95,7 @@ package loneliness.rooms
 			//add(bg01);
 			var playerX:Number = FP.screen.width / 2;
 			var playerY:Number = MainWorld.height - 50;	
-			//playerY = 8000;
+			//playerY = 2500;
 			add(player = new Player(playerX, playerY));
 			//addTween(backgroundAlarm, true);
 			
