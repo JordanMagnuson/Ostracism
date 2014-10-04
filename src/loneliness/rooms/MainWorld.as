@@ -88,8 +88,10 @@ package loneliness.rooms
 			Mouse.hide();
 			
 			// Fade out timer
-			timer = new Alarm(180, fadeOut);
-			addTween(timer, true);
+			if (SuperGlobal.FADE_OUT_TIME > 0) {
+				timer = new Alarm(SuperGlobal.FADE_OUT_TIME, fadeOut);
+				addTween(timer, true);
+			}
 			
 			// Background
 			if (SuperGlobal.SHOW_BACKGROUND) {
