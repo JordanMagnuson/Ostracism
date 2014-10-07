@@ -160,6 +160,20 @@ package loneliness.game
 			FP.world.add(new Leaving(this.x, this.y));
 		}
 		
+		public function ignore():void
+		{
+			this.type = 'to_ignore';
+			FP.world.remove(this);
+			FP.world.add(new Sitter(this.x, this.y));
+		}		
+		
+		public function loseInterest():void 
+		{
+			this.type = 'to_lose_interest';
+			FP.world.remove(this);
+			FP.world.add(new LostInterest(this.x, this.y));			
+		}
+		
 		public function offScreen():Boolean
 		{
 			if (y  > MainWorld.height + height / 2 || y  < -height / 2)

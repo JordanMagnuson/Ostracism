@@ -51,7 +51,7 @@ package loneliness.game
 		}		
 		
 		public function transformBack():void {
-			trace('chance of following: ' + SuperGlobal.inclusionChaserChanceOfFollowing);
+			//trace('chance of following: ' + SuperGlobal.inclusionChaserChanceOfFollowing);
 
 			if (MainWorld.player.y < 8000) 
 			{

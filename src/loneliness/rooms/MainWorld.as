@@ -3,6 +3,7 @@ package loneliness.rooms
 	import flash.utils.Dictionary;
 	import loneliness.game.Background;
 	import loneliness.game.FadeOut;
+	import loneliness.game.InclusionChaser;
 	import loneliness.game.Jumper;
 	import loneliness.game.Marcher;
 	import loneliness.game.Mixer;
@@ -37,6 +38,12 @@ package loneliness.rooms
 		public static var player:Entity;	
 		
 		public static var timer:Alarm;
+		
+		/**
+		 * This variable keeps track of the target ostracism condition, if we set START_INCLUSION_FOR_15_SECONDS.
+		 */
+		public static var targetOstracismCondition:Number;
+		public static var conditionChangeTimer:Alarm;
 		
 		/**
 		 * The loading XML file.
@@ -93,6 +100,15 @@ package loneliness.rooms
 				addTween(timer, true);
 			}
 			
+			// Inclusion condition timer.
+			if (SuperGlobal.START_INCLUSION_FOR_X_SECONDS > 0) {
+				targetOstracismCondition = SuperGlobal.ostracismCondition;
+				trace('yep want change to ' + targetOstracismCondition);
+				SuperGlobal.ostracismCondition = 3;
+				conditionChangeTimer = new Alarm(SuperGlobal.START_INCLUSION_FOR_X_SECONDS, changeConditionToTarget);
+				addTween(conditionChangeTimer, true);
+			}
+			
 			// Background
 			if (SuperGlobal.SHOW_BACKGROUND) {
 				add(new Background(0, 0));
@@ -116,43 +132,45 @@ package loneliness.rooms
 				//FP.world = new MainWorld;
 			//}			
 			
-			// Change ostracism conditon and restart
-			//if (Input.pressed(Key.DIGIT_1)) 
-			//{
-				// Clear tweens (eg fading sounds, FP.alarm, etc.)
-				//FP.tweener.clearTweens();
-				//SuperGlobal.inclusionChaserChanceOfFollowing = SuperGlobal.CHANCE_OF_FOLLOWING_INITIAL;
-				//SuperGlobal.inclusionFollowers = 0;
-				//SuperGlobal.ostracismCondition = 1;
-				//FP.world = new MainWorld;
-			//}					
-			//else if (Input.pressed(Key.DIGIT_2)) 
-			//{
-				// Clear tweens (eg fading sounds, FP.alarm, etc.)
-				//FP.tweener.clearTweens();
-				//SuperGlobal.inclusionChaserChanceOfFollowing = SuperGlobal.CHANCE_OF_FOLLOWING_INITIAL;
-				//SuperGlobal.inclusionFollowers = 0;
-				//SuperGlobal.ostracismCondition = 2;
-				//FP.world = new MainWorld;
-			//}			
-			//else if (Input.pressed(Key.DIGIT_3)) 
-			//{
-				// Clear tweens (eg fading sounds, FP.alarm, etc.)
-				//FP.tweener.clearTweens();
-				//SuperGlobal.inclusionChaserChanceOfFollowing = SuperGlobal.CHANCE_OF_FOLLOWING_INITIAL;
-				//SuperGlobal.inclusionFollowers = 0;
-				//SuperGlobal.ostracismCondition = 3;
-				//FP.world = new MainWorld;
-			//}		
-			//else if (Input.pressed(Key.DIGIT_4)) 
-			//{
-				// Clear tweens (eg fading sounds, FP.alarm, etc.)
-				//FP.tweener.clearTweens();
-				//SuperGlobal.inclusionChaserChanceOfFollowing = SuperGlobal.CHANCE_OF_FOLLOWING_INITIAL;
-				//SuperGlobal.inclusionFollowers = 0;
-				//SuperGlobal.ostracismCondition = 4;
-				//FP.world = new MainWorld;
-			//}					
+			if (SuperGlobal.ALLOW_ADMIN_KEYS) {
+				// Change ostracism conditon and restart
+				if (Input.pressed(Key.DIGIT_1)) 
+				{
+					// Clear tweens (eg fading sounds, FP.alarm, etc.)
+					FP.tweener.clearTweens();
+					SuperGlobal.inclusionChaserChanceOfFollowing = SuperGlobal.CHANCE_OF_FOLLOWING_INITIAL;
+					SuperGlobal.inclusionFollowers = 0;
+					SuperGlobal.ostracismCondition = 1;
+					FP.world = new MainWorld;
+				}					
+				else if (Input.pressed(Key.DIGIT_2)) 
+				{
+					// Clear tweens (eg fading sounds, FP.alarm, etc.)
+					FP.tweener.clearTweens();
+					SuperGlobal.inclusionChaserChanceOfFollowing = SuperGlobal.CHANCE_OF_FOLLOWING_INITIAL;
+					SuperGlobal.inclusionFollowers = 0;
+					SuperGlobal.ostracismCondition = 2;
+					FP.world = new MainWorld;
+				}			
+				else if (Input.pressed(Key.DIGIT_3)) 
+				{
+					// Clear tweens (eg fading sounds, FP.alarm, etc.)
+					FP.tweener.clearTweens();
+					SuperGlobal.inclusionChaserChanceOfFollowing = SuperGlobal.CHANCE_OF_FOLLOWING_INITIAL;
+					SuperGlobal.inclusionFollowers = 0;
+					SuperGlobal.ostracismCondition = 3;
+					FP.world = new MainWorld;
+				}		
+				else if (Input.pressed(Key.DIGIT_4)) 
+				{
+					// Clear tweens (eg fading sounds, FP.alarm, etc.)
+					FP.tweener.clearTweens();
+					SuperGlobal.inclusionChaserChanceOfFollowing = SuperGlobal.CHANCE_OF_FOLLOWING_INITIAL;
+					SuperGlobal.inclusionFollowers = 0;
+					SuperGlobal.ostracismCondition = 4;
+					FP.world = new MainWorld;
+				}			
+			}
 			
 			// update entities
 			super.update();
@@ -169,6 +187,45 @@ package loneliness.rooms
 			//else
 				//trace('finished');
 		}		
+		
+		public function changeConditionToTarget():void
+		{
+			trace('yep changing to target');
+			SuperGlobal.ostracismCondition = targetOstracismCondition;
+			if (SuperGlobal.ostracismCondition != 3 && SuperGlobal.ostracismCondition != 4) {
+				// Don't remove followers if we are switching to inclusion or smothering.
+				removeFollowers();
+			}
+		}
+		
+		/**
+		 * Removes followers (mode = 'smothering') from player.
+		 */
+		public function removeFollowers():void 
+		{
+			var others:Array = [];
+			FP.world.getType('other', others);
+			FP.world.getType('to_smother', others);
+			FP.world.getType('smother_chaser', others);
+			for each (var other:Other in others)
+			{
+				// Mode is used to tell what the other is actually up to (since they switch backa and forth between type: eg inclusionChaser to sitter).
+				// "Friends" that are following the player (inclusion condition) actually have mode = smothering.
+				if (other.type == 'smother_chaser' || other.mode == 'smothering') {
+					//trace('telling to leave');				
+					switch (SuperGlobal.ostracismCondition) {
+						// Ostracism
+						case 1:
+							other.leave();
+							break;	
+						// Indifference
+						case 2:
+							other.loseInterest();
+							break;
+					}
+				}
+			}
+		}
 		
 		public function fadeOut():void
 		{
