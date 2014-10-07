@@ -1,45 +1,25 @@
-<?xml version="1.0"?>
-<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <OgmoVersion>2.1.0.6</OgmoVersion>
-  <Name>New Project</Name>
-  <BackgroundColor A="255" R="125" G="160" B="255" />
-  <GridColor A="255" R="255" G="240" B="90" />
-  <LevelDefaultSize>
-    <Width>640</Width>
-    <Height>5000</Height>
-  </LevelDefaultSize>
-  <LevelMinimumSize>
-    <Width>640</Width>
-    <Height>4800</Height>
-  </LevelMinimumSize>
-  <LevelMaximumSize>
-    <Width>640</Width>
-    <Height>4800</Height>
-  </LevelMaximumSize>
-  <Filename>C:\Users\Jordan\Google Drive\Flash Stuff\Ostracism\assets\loneliness\levels\project.oep</Filename>
-  <AngleMode>Radians</AngleMode>
-  <CameraEnabled>false</CameraEnabled>
-  <CameraSize>
-    <Width>640</Width>
-    <Height>480</Height>
-  </CameraSize>
-  <ExportCameraPosition>false</ExportCameraPosition>
-  <LevelValueDefinitions />
-  <LayerDefinitions>
-    <LayerDefinition xsi:type="GridLayerDefinition">
-      <Name>NewLayer0</Name>
-      <Grid>
-        <Width>16</Width>
-        <Height>16</Height>
-      </Grid>
-      <ScrollFactor>
-        <X>1</X>
-        <Y>1</Y>
-      </ScrollFactor>
-      <Color A="255" R="0" G="0" B="0" />
-      <ExportMode>Bitstring</ExportMode>
-    </LayerDefinition>
-  </LayerDefinitions>
-  <Tilesets />
-  <EntityDefinitions />
+<project>
+	<name>Loneliness</name>
+	<settings>
+		<defaultWidth>400</defaultWidth>
+		<defaultHeight>8000</defaultHeight>
+		<workingDirectory>../gfx</workingDirectory>
+	</settings>
+	<objects>
+		<object name="player" image="player.png" width="6" height="6" limit="1"/>
+		<folder name="centers">
+			<object name="mixer_center" image="debug.png" width="6" height="6"/>
+			<object name="orbiter_center" image="debug.png" width="6" height="6"/>
+		</folder>
+		<folder name="others">
+			<object name="sitter" image="other.png" width="6" height="6"/>
+			<object name="mixer" image="other.png" width="6" height="6"/>
+			<object name="orbiter" image="other.png" width="6" height="6"/>
+			<object name="jumper" image="other.png" width="6" height="6"/>
+			<object name="marcher" image="other.png" width="6" height="6"/>
+		</folder>
+	</objects>
+	<layers>
+		<objects name="actors" gridSize="6"/>
+	</layers>
 </project>
