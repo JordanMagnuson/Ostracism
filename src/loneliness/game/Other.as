@@ -11,6 +11,7 @@ package loneliness.game
 	{
 		public static const SCARE_RADIUS:Number = 100;	// 40
 		public static const INFLUENCE_RADIUS:Number = 100; // 40 If a wanderer gets within this distance of another type, it will become that type		
+		public static const FREEZE_RADIUS:Number = 150;	// For alienation condition (5)
 		
 		// Smothering
 		public static const SHOULD_SMOTHER_RADIUS:Number = 150;
@@ -116,6 +117,12 @@ package loneliness.game
 						smother();
 					}		
 					break;
+				// Smothering
+				case 5:
+					if (distanceFrom(MainWorld.player) <= FREEZE_RADIUS && this.type != 'frozen') {
+						freeze();
+					}
+					break;					
 			}
 
 			if (this.mode == 'smothering' && distanceFrom(MainWorld.player) > SMOTHER_MAX_RADIUS) {
@@ -160,15 +167,27 @@ package loneliness.game
 			FP.world.add(new Leaving(this.x, this.y));
 		}
 		
-		public function ignore():void
+		public function freeze():void
 		{
-			this.type = 'to_ignore';
+			this.type = 'to_freeze';
 			FP.world.remove(this);
-			FP.world.add(new Sitter(this.x, this.y));
+			FP.world.add(new Frozen(this.x, this.y));
+			freezeNearby();
 		}		
+		
+		public function freezeNearby():void
+		{
+			trace('freeze nearby');
+			var toFreeze:Array = [];
+			FP.world.collideRectInto('other', x - FREEZE_RADIUS, y - FREEZE_RADIUS, FREEZE_RADIUS * 2, FREEZE_RADIUS * 2, toFreeze);
+
+			for each (var other:Other in toFreeze)
+				other.freeze();
+		}				
 		
 		public function loseInterest():void 
 		{
+			// LostInterest = same as Leaver, except does not scare nearby.
 			this.type = 'to_lose_interest';
 			FP.world.remove(this);
 			FP.world.add(new LostInterest(this.x, this.y));			

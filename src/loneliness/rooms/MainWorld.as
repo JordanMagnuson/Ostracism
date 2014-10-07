@@ -83,7 +83,7 @@ package loneliness.rooms
 		{
 			var playerX:Number = FP.screen.width / 2;
 			var playerY:Number = MainWorld.height - 50;	
-			//playerY = 2500;
+			//playerY = MainWorld.height - 1000;
 			add(player = new Player(playerX, playerY));
 			
 			if (SuperGlobal.MUSIC) {
