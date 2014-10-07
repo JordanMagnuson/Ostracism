@@ -37,7 +37,7 @@ package
 		public static var soundsPlaying:Dictionary = new Dictionary();
 		
 		public static const START_INCLUSION_FOR_X_SECONDS:Number = 15; // If this is > 0, the game will start out with the inclusion condition for x seconds, then transition to ostracismCondition set below.
-		public static var ostracismCondition:Number = 2; // 1 = Ostracism, 2 = Indifference, 3 = Inclusion, 4 = Smothering
+		public static var ostracismCondition:Number = 6; // 1 = Ostracism, 2 = Indifference, 3 = Inclusion, 4 = Smothering, 5 = Alienation (freeze), 6 = Circle the Wagons
 		
 		public static const CHANCE_OF_FOLLOWING_INITIAL:Number = 0.15;
 		public static const CHANCE_OF_FOLLOWING_CHANGE:Number = 0.015;

@@ -2,6 +2,7 @@ package loneliness.rooms
 {
 	import flash.utils.Dictionary;
 	import loneliness.game.Background;
+	import loneliness.game.ClusterCenter;
 	import loneliness.game.FadeOut;
 	import loneliness.game.InclusionChaser;
 	import loneliness.game.Jumper;
@@ -53,7 +54,7 @@ package loneliness.rooms
 		/**
 		 * Level XML.
 		 */
-		[Embed(source='../../../assets/loneliness/levels/MainLevel2.oel', mimeType='application/octet-stream')] private static const LEVEL:Class;		
+		[Embed(source='../../../assets/loneliness/levels/MainLevel3.oel', mimeType='application/octet-stream')] private static const LEVEL:Class;		
 		
 		/**
 		 * Camera following information.
@@ -83,7 +84,8 @@ package loneliness.rooms
 		{
 			var playerX:Number = FP.screen.width / 2;
 			var playerY:Number = MainWorld.height - 50;	
-			//playerY = MainWorld.height - 1000;
+			//playerY = MainWorld.height - 2000;
+			//playerY = 11510;
 			add(player = new Player(playerX, playerY));
 			
 			if (SuperGlobal.MUSIC) {
@@ -169,7 +171,25 @@ package loneliness.rooms
 					SuperGlobal.inclusionFollowers = 0;
 					SuperGlobal.ostracismCondition = 4;
 					FP.world = new MainWorld;
-				}			
+				}		
+				else if (Input.pressed(Key.DIGIT_5)) 
+				{
+					// Clear tweens (eg fading sounds, FP.alarm, etc.)
+					FP.tweener.clearTweens();
+					SuperGlobal.inclusionChaserChanceOfFollowing = SuperGlobal.CHANCE_OF_FOLLOWING_INITIAL;
+					SuperGlobal.inclusionFollowers = 0;
+					SuperGlobal.ostracismCondition = 5;
+					FP.world = new MainWorld;
+				}	
+				else if (Input.pressed(Key.DIGIT_6)) 
+				{
+					// Clear tweens (eg fading sounds, FP.alarm, etc.)
+					FP.tweener.clearTweens();
+					SuperGlobal.inclusionChaserChanceOfFollowing = SuperGlobal.CHANCE_OF_FOLLOWING_INITIAL;
+					SuperGlobal.inclusionFollowers = 0;
+					SuperGlobal.ostracismCondition = 6;
+					FP.world = new MainWorld;
+				}					
 			}
 			
 			// update entities
@@ -309,7 +329,11 @@ package loneliness.rooms
 				
 			// load marchers			
 			for each (o in level.actors.marcher)
-				add(new Marcher(FP.scale(o.@x, 0, level.width, 0, width), FP.scale(o.@y, 0, level.height, 0, height)));					
+				add(new Marcher(FP.scale(o.@x, 0, level.width, 0, width), FP.scale(o.@y, 0, level.height, 0, height)));		
+				
+			// load cluster centers (for 'circle the wagons' condition).
+			for each (o in level.actors.cluster_center)
+				add(new ClusterCenter(FP.scale(o.@x, 0, level.width, 0, width), FP.scale(o.@y, 0, level.height, 0, height)));					
 		}
 		
 	}

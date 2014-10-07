@@ -11,7 +11,8 @@ package loneliness.game
 	{
 		public static const SCARE_RADIUS:Number = 100;	// 40
 		public static const INFLUENCE_RADIUS:Number = 100; // 40 If a wanderer gets within this distance of another type, it will become that type		
-		public static const FREEZE_RADIUS:Number = 150;	// For alienation condition (5)
+		public static const FREEZE_RADIUS:Number = 150;	// Like SCARE_RADIUS, but for alienation condition (5)
+		public static const CLUSTER_RADIUS:Number = 150; // Like SCARE_RADIUS, but For 'circle the wagons' condition (6).
 		
 		// Smothering
 		public static const SHOULD_SMOTHER_RADIUS:Number = 150;
@@ -117,12 +118,18 @@ package loneliness.game
 						smother();
 					}		
 					break;
-				// Smothering
+				// Alienation
 				case 5:
 					if (distanceFrom(MainWorld.player) <= FREEZE_RADIUS && this.type != 'frozen') {
 						freeze();
 					}
-					break;					
+					break;		
+				// Circle the wagons
+				case 6:
+					if (distanceFrom(MainWorld.player) <= CLUSTER_RADIUS && this.mode != 'clustered') {
+						cluster();
+					}
+					break;							
 			}
 
 			if (this.mode == 'smothering' && distanceFrom(MainWorld.player) > SMOTHER_MAX_RADIUS) {
@@ -158,6 +165,12 @@ package loneliness.game
 				FP.world.remove(this);
 				FP.world.add(new InclusionChaser(this.x, this.y, this.getClass()));
 			}
+		}
+		
+		public function cluster():void {
+			this.type = 'to_cluster';
+			FP.world.remove(this);
+			FP.world.add(new Clusterer(this.x, this.y, this.getClass()));				
 		}
 		
 		public function leave():void

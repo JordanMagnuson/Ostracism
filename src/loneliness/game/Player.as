@@ -27,6 +27,15 @@ package loneliness.game
 		public var spdMax:Number = 0;
 		public var spdX:Number = 0;
 		public var spdY:Number = 0;		
+		public var lastX:Number = 0;
+		public var lastY:Number = 0;
+		
+		/**
+		 * Circle the wagons
+		 */
+		public var nearestClusterCenter:ClusterCenter;
+		public var nearestOther:Other;
+		public const CLUSTER_CENTER_MIN_DISTANCE:Number = 100;	// How close the player can get to cluster centers and others.
 		
 		/**
 		 * Player graphic
@@ -79,6 +88,69 @@ package loneliness.game
 			{
 				(FP.world as MainWorld).fadeOut();
 			}
+			
+			// Circle the Wagons
+			if (SuperGlobal.ostracismCondition == 6) {
+				// Push player away from cluster centers.
+				nearestClusterCenter = (FP.world.nearestToEntity('cluster_center', this) as ClusterCenter);
+				if (distanceFrom(nearestClusterCenter) <= CLUSTER_CENTER_MIN_DISTANCE) {
+					if (Input.check("U") || Input.check("D")) {
+						if (lastX < nearestClusterCenter.x)
+							x = lastX - 1;
+						else
+							x = lastX + 1;				
+					}
+					else if (Input.check("L") || Input.check("R")) {
+						if (lastY < nearestClusterCenter.y)
+							y = lastY - 1;
+						else
+							y = lastY + 1;				
+					}					
+					else {
+						if (lastX < nearestClusterCenter.x)
+							x = lastX - 1;
+						else
+							x = lastX + 1;				
+						if (lastY < nearestClusterCenter.y)
+							y = lastY - 1;
+						else
+							y = lastY + 1;						
+					}		
+				}
+				else {			
+					// Push player away from others.
+					nearestOther = (FP.world.nearestToEntity('other', this) as Other);
+					if (distanceFrom(nearestOther) <= CLUSTER_CENTER_MIN_DISTANCE) {
+						if (Input.check("U") || Input.check("D")) {
+							if (lastX < nearestOther.x)
+								x = lastX - 1;
+							else
+								x = lastX + 1;				
+						}
+						else if (Input.check("L") || Input.check("R")) {
+							if (lastY < nearestOther.y)
+								y = lastY - 1;
+							else
+								y = lastY + 1;				
+						}					
+						else {
+							if (lastX < nearestOther.x)
+								x = lastX - 1;
+							else
+								x = lastX + 1;				
+							if (lastY < nearestOther.y)
+								y = lastY - 1;
+							else
+								y = lastY + 1;						
+						}
+					}
+				}
+			}
+			
+			// Keep track of last x and y coords, so we can put player back there (force field effect).
+			lastX = x;
+			lastY = y;
+			
 			
 			//if (Input.pressed(Key.R)) 
 			//{

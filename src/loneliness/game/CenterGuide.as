@@ -11,7 +11,7 @@ package loneliness.game
 		 */
 		//[Embed(source='../../assets/gfx/debug.png')] private const S_DEBUG:Class;
 		//public var debug_image:Image = new Image(S_DEBUG);
-		public var debug_image:Image = Image.createRect(12, 12, Colors.BLOOD_RED);
+		//public var debug_image:Image = Image.createRect(12, 12, Colors.BLOOD_RED);
 		
 		public function CenterGuide(x:Number, y:Number) 
 		{
