@@ -147,6 +147,14 @@ package loneliness.game
 				}
 			}
 			
+			// Check outisde of screen boundaries
+			if (x < width / 2) {
+				x = width / 2;
+			}
+			else if (x > MainWorld.width - width / 2) {
+				x = MainWorld.width - width / 2;
+			}
+			
 			// Keep track of last x and y coords, so we can put player back there (force field effect).
 			lastX = x;
 			lastY = y;
